@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload Excel</title>
+    <style>
+        .main {
+            height: 400px;
+            width: 400px;
+            border: 1px solid rgb(192, 189, 189);
+            background-image: linear-gradient(rgb(238, 236, 236), lightpink, rgb(252, 173, 185));
+            box-shadow: 5px 5px 8px gray;
+            border-radius: 20px;
+            margin: auto;
+            margin-top: 10%;
+            text-align: center;
+
+        }
+
+        input {
+            padding: 15px;
+
+        }
+
+        .file {
+            margin-top: 34px;
+
+        }
+
+        .upload {
+            margin-top: 20px;
+            width: 150px;
+            border-radius: 10px;
+            background-color: rgba(6, 193, 240, 0.884);
+            border: 0px;
+            color: white;
+            font-size: large;
+
+        }
+
+        input[type="file" i] {
+
+            font-size: larger;
+            margin-left: 40px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 40px;
+        }
+
+        .show {
+            margin-top: 10px;
+            padding: 10px;
+            
+            border: 0px;
+            background-color: gray;
+            color: white;
+            border-radius: 10px;
+        }
+        .show,a{
+            color: white;
+            text-decoration: none;
+        }
+
+        .success-message {
+
+            color: #155724;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            margin-top: 20px;
+            text-align: center;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main">
+        <h2>Upload Excel File Here.....</h2>
+
+        <form method="post" action="/upload" enctype="multipart/form-data">
+            <input type="file" name="file" required class="file">
+            <br>
+            <br>
+            <input type="submit" value="Upload" class="upload">
+            <br>
+            <button class="show"><a href="/update_table" >Show Table</a></button>
+
+        </form>
+        {% if success_message %}
+        <div class="success-message">{{ success_message }}</div>
+        {% endif %}
+
+        {% if message %}
+        <div class="error-message">{{ message }}</div>
+        {% endif %}
+
+    </div>
+</body>
+
+</html>

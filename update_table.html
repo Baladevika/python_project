@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Uploaded Tables</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+            word-break: break-word;
+        }
+
+        th {
+            background-color: #1da0ec;
+            color: white;
+        }
+
+        .table-section {
+            
+            overflow-x: auto;
+        }
+
+        .sub {
+            margin-top: 110px;
+            padding: 0 20px;
+        }
+
+        h3 {
+            margin-top: 30px;
+            color: #444;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid gray;
+            width: 60%;
+            max-width: 400px;
+            margin-top: 10px;
+        }
+
+        .close {
+            margin-left: 10px;
+            font-size: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            background-color: rgb(5, 172, 238);
+            border: none;
+            margin-left: 10px;
+        }
+
+        button a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .main {
+            border: 1px solid gray;
+            box-shadow: 5px 5px 6px gray, 5px 5px 15px inset rgba(245, 87, 211, 0.836);
+            padding: 20px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            margin-bottom: 10px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            background-image: conic-gradient(violet, white, violet);
+
+        }
+        .color{
+            color: green;
+        }
+
+        .form-inline {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .form-inline h2 {
+            margin: 0 20px 0 0;
+            font-size: 20px;
+            white-space: nowrap;
+        }
+
+        .form-inline input {
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid gray;
+            flex: 1 1 250px;
+            min-width: 200px;
+            margin-top: 0%;
+        }
+
+        .form-inline .close {
+            font-size: 20px;
+            text-decoration: none;
+            color: red;
+            font-weight: bold;
+        }
+
+        .form-inline button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            background-color: rgb(5, 172, 238);
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .form-inline .back-link {
+            padding: 10px 20px;
+            background-color: #eee;
+            border-radius: 10px;
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            input {
+                width: 100%;
+                margin: 10px auto;
+            }
+
+            button {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            .close {
+                display: inline-block;
+                margin: 0;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main">
+        <form method="post" action="/update_table" class="form-inline">
+            <h2>Uploaded Excel Data (Grouped by Upload)</h2>
+            <input type="text" name="search" placeholder="Search (e.g. name:John)" value="{{ search_query }}">
+            {% if search_query %}
+            <a href="/update_table" class="close">&#10006;</a>
+            {% endif %}
+            <button type="submit">Search</button>
+            <a href="/" class="back-link">&larr; Back to Login</a>
+        </form>
+    </div>
+
+
+    <div class="sub">
+        {% for upload_time, rows in grouped_data.items() %}
+        <div class="table-section">
+            <h3>Upload Time: {{ upload_time }}</h3>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            {% for col in columns %}
+                            {% if col != 'upload_time' %}
+                            <th>{{ col }}</th>
+                            {% endif %}
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in rows %}
+                        <tr>
+                            {% for cell in row %}
+                            {% set idx = loop.index0 %}
+                            {% if columns[idx] != 'upload_time' %}
+                            <td>{{ cell }}</td>
+                            {% endif %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+
+</html>
